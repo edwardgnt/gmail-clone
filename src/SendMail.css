@@ -46,6 +46,11 @@
 .sendMail > form > input {
     height: 30px;
     padding: 10;
+    border: none;
     border-bottom: 1px solid whitesmoke;
     outline: none;
+}
+
+.sendMail__message {
+    flex: 1;
 }

@@ -17,6 +17,7 @@ export const mailSlice = createSlice({
 
 export const { openSendMessage, closeSendMessage } = mailSlice.actions;
 
+// Anytime I want to pull values from the data layer
 export const selectSendMessageIsOpen = (state) => state.mail.sendMessageIsOpen;
 
 export default mailSlice.reducer;

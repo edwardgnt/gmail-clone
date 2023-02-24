@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux'
 import { closeSendMessage } from './features/mailSlice'
 import { db } from "./firebase";
 import { Timestamp } from '@firebase/firestore';
+import { doc, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid';
 
 const SendMail = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -19,15 +21,24 @@ const SendMail = () => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData) => {
     console.log(formData);
-    
-    db.collection("emails").add({
-        to: formData.to,
-        subject: formData.subject,
-        message: formData.message,
-        timestamp: Timestamp.fromDate(new Date())  // get firebase server timestamp
+
+    // Add a new document in collection "emails"
+    await setDoc(doc(db, "emails", uuidv4()), {
+      to: formData.to,
+      subject: formData.subject,
+      message: formData.message,
+      timestamp: Timestamp.fromDate(new Date())  // get firebase server timestamp
     });
+
+    
+    // db.collection("emails").add({
+    //     to: formData.to,
+    //     subject: formData.subject,
+    //     message: formData.message,
+    //     timestamp: Timestamp.fromDate(new Date())  // get firebase server timestamp
+    // });
 
     dispatch(closeSendMessage());
   };

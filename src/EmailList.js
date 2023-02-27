@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./EmailList.css";
 import { ArrowDropDown } from "@mui/icons-material";
 import RedoIcon from "@mui/icons-material/Redo";
@@ -14,8 +14,27 @@ import Section from "./Section";
 import PeopleIcon from "@mui/icons-material/People";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import EmailRow from "./EmailRow";
+import { db } from "./firebase";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 const EmailList = () => {
+  const [emails, setEmails] = useState([]);
+
+  useEffect(() => {
+    const dbRef = query(collection(db, 'emails'), orderBy("timestamp", "desc"));
+
+    onSnapshot(dbRef, snapshot => {
+      snapshot.forEach(doc => {
+        setEmails(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      })
+    });
+  }, []);
+
   return (
     <div className="emailList">
       <div className="emailList__settings">
@@ -54,6 +73,16 @@ const EmailList = () => {
       </div>
 
       <div className="emailList__list">
+        {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
+          <EmailRow
+            id={id}
+            key={id}
+            title={to}
+            subject={subject}
+            description={message}
+            time={new Date(timestamp?.seconds * 1000).toUTCString()}
+          />
+        ))}
         <EmailRow
           title="Twitch"
           subject="Hey follow streamer!!!"

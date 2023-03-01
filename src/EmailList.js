@@ -83,18 +83,6 @@ const EmailList = () => {
             time={new Date(timestamp?.seconds * 1000).toUTCString()}
           />
         ))}
-        <EmailRow
-          title="Twitch"
-          subject="Hey follow streamer!!!"
-          description="This is a test"
-          time="10pm"
-        />
-        <EmailRow
-          title="Twitch"
-          subject="Hey follow streamer!!!"
-          description="This is a test This is a test This is a test This is a test This is a test"
-          time="10pm"
-        />
       </div>
     </div>
   );

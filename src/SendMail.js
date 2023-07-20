@@ -54,12 +54,28 @@ const SendMail = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-            <input name="to" type="text" placeholder='To' {...register("to", { required: true })} />
+            <input 
+              name="to" 
+              type="email" 
+              placeholder='To' {...register("to", { required: true })} 
+            />
             {errors.to && <span className='sendMail__error'>To is required</span>}
-            <input name="subject" type="text" placeholder='Subject' {...register("subject", { required: true })} />
+
+            <input 
+              name="subject" 
+              type="text" 
+              placeholder='Subject' {...register("subject", { required: true })} 
+            />
             {errors.subject && <span className='sendMail__error'>Subject is required</span>}
-            <input name="message" type="text" placeholder='Message...' className='sendMail__message' {...register("message", { required: true })}  />
+
+            <input 
+              name="message" 
+              type="text" 
+              placeholder='Message...' 
+              className='sendMail__message' {...register("message", { required: true })}  
+            />
             {errors.message && <span className='sendMail__error'>Message is required</span>}
+            
             <div className="sendMail__options">
                 <Button type='submit'>Send</Button>
             </div>
